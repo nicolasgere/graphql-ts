@@ -10,6 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 const index_1 = require('./../graphql-ts/index');
 class distributeur {
+    constructor(name, ville) {
+        this.name = name;
+        this.ville = ville;
+    }
 }
 __decorate([
     index_1.field, 
@@ -20,3 +24,22 @@ __decorate([
     __metadata('design:type', String)
 ], distributeur.prototype, "ville", void 0);
 exports.distributeur = distributeur;
+class test {
+}
+__decorate([
+    index_1.input, 
+    __metadata('design:type', String)
+], test.prototype, "name", void 0);
+exports.test = test;
+class distributeurInput {
+}
+__decorate([
+    index_1.input, 
+    __metadata('design:type', String)
+], distributeurInput.prototype, "name", void 0);
+__decorate([
+    index_1.input,
+    index_1.inputListType('test'), 
+    __metadata('design:type', Array)
+], distributeurInput.prototype, "test", void 0);
+exports.distributeurInput = distributeurInput;

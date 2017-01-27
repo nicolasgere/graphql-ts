@@ -1,11 +1,9 @@
-import  {field,query} from  './../graphql-ts/index'
+import  {field, description} from  './../graphql-ts/index'
 import {voiture} from './voiture'
 
-//something i dont like
-var t = new voiture();
 
 export class root {
-  @field
+  @field  @description('la liste des voitures')
   voitures():Array<voiture>{
     var voiture1 = new voiture();
     voiture1.model = "clio";

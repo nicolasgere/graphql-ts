@@ -5,8 +5,12 @@ import {
     GraphQLString,
     GraphQLFloat,
     GraphQLBoolean,
-    GraphQLList
+    GraphQLNonNull,
+    GraphQLList,
+    GraphQLInputObjectType
 } from 'graphql';
+
+
 
 export function $args(func) {
     return (func + '')
@@ -29,4 +33,44 @@ export function getGraphQLType(type: string) {
     if (type == "boolean") {
         return GraphQLBoolean
     }
+}
+
+
+
+
+export function createIfObjectNotExist(target:any, obj:any){
+  if (!obj[target.constructor.name]) {
+      obj[target.constructor.name] = new GraphQLObjectType({
+          name: target.constructor.name,
+          fields: {}
+      })
+  }
+}
+export function createInputObjectIfNotExist(target:any, obj:any){
+  if (!obj[target.constructor.name]) {
+      obj[target.constructor.name] = new GraphQLInputObjectType({
+          name: target.constructor.name,
+          fields: {}
+      })
+  }
+}
+export function getArgs(target:any, key:any, params:any){
+  return $args(target[key]).map(function(item, i) {
+      return { name: item, type: params[i].name };
+  });
+}
+export function convertArgsToGraphQL(args:any, argsRequired:any, inputs:any){
+  var temp = {};
+  args.forEach(function(item) {
+        let type = getGraphQLType(item.type)
+        if(!type){
+          type = inputs[item.type];
+        }
+      if(argsRequired.indexOf(item.name)!=-1){
+        temp[item.name] = { "type": new GraphQLNonNull(type)};
+      }else{
+        temp[item.name] = { "type": type};
+      }
+  })
+  return temp;
 }

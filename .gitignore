@@ -1,0 +1,8 @@
+.vs/
+bower_components/
+node_modules/
+
+
+#Exclude tsc generated files
+*.map
+*.js

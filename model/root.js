@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 const index_1 = require('./../graphql-ts/index');
 const voiture_1 = require('./voiture');
-//something i dont like
-var t = new voiture_1.voiture();
 class root {
     voitures() {
         var voiture1 = new voiture_1.voiture();
@@ -24,7 +22,8 @@ class root {
     ;
 }
 __decorate([
-    index_1.field, 
+    index_1.field,
+    index_1.description('la liste des voitures'), 
     __metadata('design:type', Function), 
     __metadata('design:paramtypes', []), 
     __metadata('design:returntype', Array)

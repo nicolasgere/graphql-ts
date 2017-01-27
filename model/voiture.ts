@@ -1,7 +1,6 @@
-import  {field,query, required, returnType} from  './../graphql-ts/index'
-import {distributeur} from './distributeur'
+import  {field,required, returnType, mutation} from  './../graphql-ts/index'
+import {distributeur, distributeurInput} from './distributeur'
 
-var t = new distributeur();
 
 var db = "yahou";
 
@@ -13,7 +12,7 @@ export class voiture {
     annee:number;
 
     @field @required(['name']) @returnType('string')
-    blabla(name:string):Array<string>{
+    distributeurs():Array<string>{
       return  ['jolw','quetal'];
     }
     @field
@@ -23,5 +22,9 @@ export class voiture {
     @field
     hello():String{
       return  "hello world";
+    }
+    @mutation @returnType('string')
+    add_distributeur(test:distributeurInput):[string]{
+      return ['test'];
     }
 }

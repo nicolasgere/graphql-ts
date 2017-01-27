@@ -8,12 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const index_1 = require("./../graphql-ts/index");
-const distributeur_1 = require("./distributeur");
-var t = new distributeur_1.distributeur();
+const index_1 = require('./../graphql-ts/index');
+const distributeur_1 = require('./distributeur');
 var db = "yahou";
 class voiture {
-    blabla(name) {
+    distributeurs() {
         return ['jolw', 'quetal'];
     }
     test() {
@@ -22,31 +21,43 @@ class voiture {
     hello() {
         return "hello world";
     }
+    add_distributeur(test) {
+        return ['test'];
+    }
 }
-exports.voiture = voiture;
 __decorate([
-    index_1.field,
-    __metadata("design:type", String)
+    index_1.field, 
+    __metadata('design:type', String)
 ], voiture.prototype, "model", void 0);
 __decorate([
-    index_1.field,
-    __metadata("design:type", Number)
+    index_1.field, 
+    __metadata('design:type', Number)
 ], voiture.prototype, "annee", void 0);
 __decorate([
-    index_1.field, index_1.required(['name']), index_1.returnType('string'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Array)
-], voiture.prototype, "blabla", null);
-__decorate([
     index_1.field,
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", distributeur_1.distributeur)
+    index_1.required(['name']),
+    index_1.returnType('string'), 
+    __metadata('design:type', Function), 
+    __metadata('design:paramtypes', []), 
+    __metadata('design:returntype', Array)
+], voiture.prototype, "distributeurs", null);
+__decorate([
+    index_1.field, 
+    __metadata('design:type', Function), 
+    __metadata('design:paramtypes', []), 
+    __metadata('design:returntype', distributeur_1.distributeur)
 ], voiture.prototype, "test", null);
 __decorate([
-    index_1.field,
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
+    index_1.field, 
+    __metadata('design:type', Function), 
+    __metadata('design:paramtypes', []), 
+    __metadata('design:returntype', String)
 ], voiture.prototype, "hello", null);
+__decorate([
+    index_1.mutation,
+    index_1.returnType('string'), 
+    __metadata('design:type', Function), 
+    __metadata('design:paramtypes', [distributeur_1.distributeurInput]), 
+    __metadata('design:returntype', Array)
+], voiture.prototype, "add_distributeur", null);
+exports.voiture = voiture;
