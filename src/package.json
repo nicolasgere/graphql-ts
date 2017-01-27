@@ -1,11 +1,13 @@
 {
-  "name": "testmetadata",
-  "version": "1.0.0",
-  "description": "",
+  "name": "graphQL-ts",
+  "version": "0.0.1",
+  "description": "graphQL implementation for typescript",
   "main": "index.js",
   "dependencies": {
+    "@types/express-graphql": "0.0.33",
     "@types/graphql": "^0.8.6",
     "@types/reflect-metadata": "0.0.5",
+    "express-graphql": "^0.6.2",
     "graphql": "^0.9.0",
     "reflect-metadata": "^0.1.9"
   },
@@ -13,6 +15,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Nicolas Gere-lamaysouette",
   "license": "ISC"
 }

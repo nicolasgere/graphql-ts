@@ -13,7 +13,6 @@ import {
 
 export function mutationProcess(target: any, key: string, models:any, mutations:any, inputs:any) {
     const typeInfo = Reflect.getMetadata("design:type", target, key);
-    console.log(typeInfo);
     if (typeInfo.name == "Function") {
         const params = Reflect.getMetadata("design:paramtypes", target, key);
         const returntype = Reflect.getMetadata("design:returntype", target, key);
