@@ -1,4 +1,4 @@
-import  {field,query} from  './../decorator'
+import  {field,query} from  './../graphql-ts/index'
 import {voiture} from './voiture'
 
 //something i dont like
