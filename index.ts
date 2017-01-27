@@ -1,6 +1,4 @@
-import  {field,query} from  './decorator'
-
-
+import  {field,query} from  './graphql-ts/index'
 import {root} from './model/root'
 
 var test = new root()
@@ -9,12 +7,16 @@ query( `
 {
   voitures{
     model
-    distributeurs{
+    blabla(name:"ok")
+    test{
       name
     }
+    hello
 
   }
 }
 `).then(function(x){
-  console.log(x);
+  console.log(JSON.stringify(x));
+}).catch(function(x){
+  console.log('ERR',x);
 })
