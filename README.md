@@ -105,5 +105,31 @@ Graphql-ts work with decorator for annotate the code and then generate the model
 + <code><strong>@input</strong></code> equivalent of @field but for inputType
 + <code><strong>@inputListType('typeName')</strong></code> set the type of an array for an input field
 
+###More complex exemple
 
+```ts
+import {field, graphqlTs, description, returnType, mutation, required} from 'graphql-ts'
+
+class user{
+  @field
+  name:string
+
+  @field
+  age:number
+
+  @mutation @required(['name','age'])
+  user_update_age(name:string,age:number):string{
+    db.update({"name":name},{$set:{"age":age}})
+    return "ok";
+  }
+}
+
+class root{
+  @description('List of all users')
+  @field  @returnType('user')
+  users():Array<user>{
+    return db.user.find();
+  }
+}
+```
 
