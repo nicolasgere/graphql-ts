@@ -70,7 +70,7 @@ var schema = new GraphQLSchema({
 ```
 
 
-Then, serve the result of a query against that type schema.
+Then, serve the result of a query against that schema.
 
 ```ts
 import {graphqlTs} from 'graphql-ts'
@@ -94,3 +94,16 @@ graphql(graphqlTs.getSchema(), query).then(result => {
 
 });
 ```
+### Decorator
+Graphql-ts work with decorator for annotate the code and then generate the model
+
++ <code><strong>@field</strong></code> add the field in the model, the object will be create with the class name. If it's a function, this will be the resolve
++ <code><strong>@description(name:string)</strong></code> add a description to the field
++ <code><strong>@required(['paramName'])</strong></code> no other way for the moment to set a params as non null
++ <code><strong>@returnType('typeName')</strong></code> return type of the resolve, this is need only for the array, for exemple if you want to return [string], the decorator will be @returnType('string')
++ <code><strong>@mutation</strong></code> create a mutation
++ <code><strong>@input</strong></code> equivalent of @field but for inputType
++ <code><strong>@inputListType('typeName')</strong></code> set the type of an array for an input field
+
+
+
