@@ -6,3 +6,4 @@ node_modules/
 #Exclude tsc generated files
 *.map
 *.js
+*.d.ts

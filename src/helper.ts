@@ -21,8 +21,7 @@ export function $args(func) {
         //.replace(/=[^,]+/g, '') // strip any ES6 defaults
         .split(',').filter(Boolean); // split & filter [""]
 }
-
-export function getGraphQLType(type: string) {
+export function getGraphQLType(type: string):any {
     type = type.toLowerCase();
     if (type == "string" ) {
         return GraphQLString
@@ -34,9 +33,6 @@ export function getGraphQLType(type: string) {
         return GraphQLBoolean
     }
 }
-
-
-
 
 export function createIfObjectNotExist(target:any, obj:any){
   if (!obj[target.constructor.name]) {

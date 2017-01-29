@@ -8,11 +8,11 @@ import {
     GraphQLNonNull
 } from 'graphql';
 
-import * as helper from './helper';
-import {fieldProcess} from './type/field';
-import {mutationProcess} from './type/mutation';
-import {inputProcess} from './type/input';
-import * as metadata from './metadata';
+import * as helper from './src/helper';
+import {fieldProcess} from './src/type/field';
+import {mutationProcess} from './src/type/mutation';
+import {inputProcess} from './src/type/input';
+import * as metadata from './src/metadata';
 import "reflect-metadata";
 
 var models = {};
@@ -24,14 +24,6 @@ var inputs = {};
 
 export function field(target: any, key: string) {
     fieldProcess(target, key, models)
-}
-
-export function query(query: string) {
-    var schema = new GraphQLSchema({
-        query: models['root']
-    });
-
-    return graphql(schema, query);
 }
 
 export module graphqlTs {
