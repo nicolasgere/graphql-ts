@@ -7,7 +7,7 @@ const descriptionMetadataKey = Symbol("desc");
 export function required(name:[string]){
   return Reflect.metadata(requiredMetadataKey, JSON.stringify(name));
 }
-export function returnType(name:string){
+export function returnType(name:any){
   return Reflect.metadata(returnMetadataKey, JSON.stringify(name));
 }
 export function description(text:string){

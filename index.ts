@@ -10,6 +10,7 @@ import {
 
 import * as helper from './src/helper';
 import {fieldProcess} from './src/type/field';
+import {listProcess} from './src/type/list';
 import {mutationProcess} from './src/type/mutation';
 import {inputProcess} from './src/type/input';
 import * as metadata from './src/metadata';
@@ -24,6 +25,10 @@ var inputs = {};
 
 export function field(target: any, key: string) {
     fieldProcess(target, key, models)
+}
+
+export function list(target: any, key: string) {
+    listProcess(target, key, models)
 }
 
 export module graphqlTs {
@@ -41,8 +46,10 @@ export function required(name: [string]) {
 export function description(text: string) {
     return metadata.description(text);
 }
-export function returnType(name: string) {
-    return metadata.returnType(name);
+export function returnType<T>(objectType: T) {
+    var temp = <any>objectType;
+    
+    return metadata.returnType(temp.name);
 }
 export function inputListType(name: string) {
     return metadata.inputListType(name);

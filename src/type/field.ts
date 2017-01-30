@@ -27,7 +27,6 @@ export function fieldProcess(target: any, key: string, models:any) {
             return target[key].apply(_,paramsTemp);
         }
         if (returntype.name=="Array") {
-
             const tempType = models[key.slice(0, -1)] || models[metadata.getReturn(target,key)] || helper.getGraphQLType(metadata.getReturn(target,key));
             models[target.constructor.name]._typeConfig.fields[key] = {
                 type: new GraphQLList(tempType),
