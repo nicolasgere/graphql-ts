@@ -1,5 +1,6 @@
 # GraphQL.ts
 [![Build Status](https://travis-ci.org/nicolasgere/graphql-ts.svg?branch=dev)](https://travis-ci.org/nicolasgere/graphql-ts?branch=dev)
+[![npm version](https://badge.fury.io/js/graphql-ts.svg)](https://badge.fury.io/js/graphql-ts)
 
 The Typescrit implementation for GraphQL, a query language for APIs created by Facebook.
 
@@ -8,7 +9,8 @@ The Typescrit implementation for GraphQL, a query language for APIs created by F
 
 ## Getting Started
 
-That package is currently in development and not ready for production. Graphql.ts use decorator and metadata for generate a graphql.js model. The why of this package is to provide a suger syntax for Typescript and use the power of the typings
+That package is currently in development and not ready for PRODUCTION. Graphql.ts use decorator and metadata for generate a graphql.js model. The why of this package is to provide a suger syntax for Typescript and use the power of the typings.
+Feel free to contribute to this package, any feedback are welcome.
 
 ### Using GraphQL.ts
 
