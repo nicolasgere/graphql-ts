@@ -1,4 +1,5 @@
 # GraphQL.ts
+[![Build Status](https://travis-ci.org/nicolasgere/graphql-ts.svg?branch=dev)](https://travis-ci.org/nicolasgere/graphql-ts?branch=dev)
 
 The Typescrit implementation for GraphQL, a query language for APIs created by Facebook.
 
