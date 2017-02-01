@@ -81,4 +81,42 @@ describe('Field', () => {
         done(err);
       })
   });
+  it('should have one friend and harry', (done) => {
+   graphql(schema(), `
+     {
+       user(firstName:"hermione"){
+         firstName
+         friends{
+           firstName
+         }
+       }
+     }
+   `).then((res: any) => {
+       expect(res.data.user.friends[0].firstName).to.equal('harry');
+       expect(res.data.user.friends.length).to.equal(1);
+
+       done();
+     }).catch((err) => {
+       done(err);
+     })
+ });
+ it('should have no friend', (done) => {
+  graphql(schema(), `
+    {
+      user(firstName:"drago"){
+        firstName
+        friends{
+          firstName
+        }
+      }
+    }
+  `).then((res: any) => {
+    console.log(res.data);
+      expect(res.data.user.firstName).to.equal('drago');
+      expect(res.data.user.friends.length).to.equal(0);
+      done();
+    }).catch((err) => {
+      done(err);
+    })
+});
 });

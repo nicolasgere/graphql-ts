@@ -1,8 +1,8 @@
-import {field, graphqlTs, list, required, returnType} from './../index';
+import {field, graphqlTs, list, required, returnType, mutation, input} from './../index';
 
 var dataUsers = [{firstName:'harry', lastName:'potter', age:18}, {firstName:'hermione', lastName:'granger', age:17}, {firstName:'drago', lastName:'malfoy', age:17}];
 
-var friends = {harry:['hermione'],hermione:['harry']}
+var friends = {harry:['hermione'],hermione:['harry'], drago:[]}
 
 class user{
     @field
@@ -37,8 +37,27 @@ class root{
         return dataUsers.filter((x:user)=>{return !firstName || firstName == x.firstName})[0] as user
     }
 }
-var test = new root();
+
+class userInput{
+  @input
+  firstName:string
+
+  @input
+  lastName:string
+
+  @input
+  age:number
+}
+
+class mutation1{
+  @mutation
+  addUser(userInput:userInput):string{
+    console.log(userInput);
+    return "ok";
+  }
+
+}
 
 export function schema(){
     return  graphqlTs.getSchema();
-} 
+}

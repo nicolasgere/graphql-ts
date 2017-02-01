@@ -48,7 +48,6 @@ export function description(text: string) {
 }
 export function returnType<T>(objectType: T) {
     var temp = <any>objectType;
-    
     return metadata.returnType(temp.name);
 }
 export function inputListType(name: string) {
