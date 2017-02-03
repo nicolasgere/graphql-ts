@@ -8,21 +8,32 @@ import {
 // import 'mocha';
 
 describe('Mutation', () => {
-  it('should project list of users', (done) => {
+  it('create user with userInput', (done) => {
     graphql(schema(), `
-      {
-        allUsers{
-          firstName,
-          lastName,
+        mutation Exemple {
+          addUser (userInput:{firstName:"ron", lastName:"weisley", age:18}){
+            firstName,
+            lastName,
+            age
+          }
         }
-      }
     `).then((res: any) => {
-        expect(res.data.allUsers.length).to.equal(3);
+        expect(res.data.addUser.firstName).to.equal('ron');
         done();
       }).catch((err) => {
         done(err);
       })
-
   });
-
+  it('use input list', (done) => {
+    graphql(schema(), `
+        mutation Exemple {
+          createLinq (friends:{names:["hermione", "ron"]})
+        }
+    `).then((res: any) => {
+        expect(res.data.createLinq).to.equal('hermione,ron');
+        done();
+      }).catch((err) => {
+        done(err);
+      })
+  });
 });

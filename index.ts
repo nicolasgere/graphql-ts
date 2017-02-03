@@ -50,8 +50,9 @@ export function returnType<T>(objectType: T) {
     var temp = <any>objectType;
     return metadata.returnType(temp.name);
 }
-export function inputListType(name: string) {
-    return metadata.inputListType(name);
+export function inputListType<T>(objectType: T) {
+    var temp = <any>objectType;
+    return metadata.inputListType(temp.name);
 }
 
 export function mutation(target: any, key: string) {

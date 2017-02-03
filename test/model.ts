@@ -1,4 +1,4 @@
-import {field, graphqlTs, list, required, returnType, mutation, input} from './../index';
+import {field, graphqlTs, list, required, returnType, mutation, input, inputListType} from './../index';
 
 var dataUsers = [{firstName:'harry', lastName:'potter', age:18}, {firstName:'hermione', lastName:'granger', age:17}, {firstName:'drago', lastName:'malfoy', age:17}];
 
@@ -49,13 +49,26 @@ class userInput{
   age:number
 }
 
+class friendListInput{
+   @input @inputListType(String)
+   names:string[]
+}
+
 class mutation1{
   @mutation
-  addUser(userInput:userInput):string{
-    console.log(userInput);
-    return "ok";
+  addUser(userInput:userInput):user{
+    let newUser = new user();
+    newUser.firstName = userInput.firstName;
+    newUser.lastName = userInput.lastName;
+    newUser.age = userInput.age;
+    dataUsers.push(newUser);
+    return  newUser;
   }
 
+  @mutation
+  createLinq(friends:friendListInput):String{
+    return friends.names.join(',');
+  }
 }
 
 export function schema(){

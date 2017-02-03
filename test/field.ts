@@ -111,7 +111,6 @@ describe('Field', () => {
       }
     }
   `).then((res: any) => {
-    console.log(res.data);
       expect(res.data.user.firstName).to.equal('drago');
       expect(res.data.user.friends.length).to.equal(0);
       done();

@@ -27,17 +27,17 @@ export function mutationProcess(target: any, key: string, models:any, mutations:
         if(!returntype) throw new Error('A mutation must have a valid return type');
         if (returntype.name=="Array") {
             const tempType = models[key.slice(0, -1)] || models[metadata.getReturn(target,key)] || helper.getGraphQLType(metadata.getReturn(target,key));
-            mutations.fields[target.constructor.name+'_'+key] = {
+            mutations.fields[key] = {
                 type: new GraphQLList(tempType),
                 resolve: wrapFunction,
                 args: helper.convertArgsToGraphQL(args, argsRequired, inputs)
             }
         } else {
-          mutations.fields[target.constructor.name+'_'+key] = {
+          mutations.fields[key] = {
               type: models[returntype.name] || helper.getGraphQLType(returntype.name),
               resolve: wrapFunction,
               args: helper.convertArgsToGraphQL(args, argsRequired, inputs)
           }
         }
-    } 
+    }
 }
