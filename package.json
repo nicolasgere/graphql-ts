@@ -1,8 +1,10 @@
 {
   "name": "graphql-ts",
-  "version": "0.0.2",
-  "description": "graphQL implementation for typescript",
+  "version": "0.0.3",
+  "description": "graphQL implementation for Typescript",
   "main": "index.js",
+  "keywords":["graphql","typescript","decorator","metadata"],
+  "homepage":"https://github.com/nicolasgere/graphql-ts",
   "dependencies": {
     "@types/graphql": "^0.8.6",
     "@types/reflect-metadata": "0.0.5",
