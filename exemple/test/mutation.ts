@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { schema } from './model';
+import { schema } from './../model/root';
 
 import {
   graphql
