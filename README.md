@@ -10,7 +10,7 @@ The Typescrit implementation for GraphQL, a query language for APIs created by F
 ## Getting Started
 
 That package is currently in development and not ready for PRODUCTION. Graphql.ts use decorator and metadata for generate a graphql.js model. The why of this package is to provide a suger syntax for Typescript and use the power of the typings.
-Feel free to contribute to this package, any feedback are welcome.
+Feel free to contribute, any feedback or stars are welcome. 
 
 ### Using GraphQL.ts
 
@@ -46,6 +46,9 @@ class root{
     return "world"
   }
 }
+
+//That is the entry point of the schema
+graphqlTs.init(new root());
 ```
 This code will generate at the runtime the equivalent  model
 
@@ -84,7 +87,7 @@ class root{
   hello():string{
   }
 }
-graphqlTs.init(root);
+graphqlTs.init(new root());
 
 var query = '{ hello }';
 graphql(graphqlTs.getSchema(), query).then(result => {
@@ -110,29 +113,6 @@ Graphql-ts work with decorator for annotate the code and then generate the model
 
 ###More complex exemple
 
-```ts
-import {field, graphqlTs, description, returnType, mutation, required} from 'graphql-ts'
-
-class user{
-  @field
-  name:string
-
-  @field
-  age:number
-
-  @mutation @required(['name','age'])
-  user_update_age(name:string,age:number):string{
-    db.update({"name":name},{$set:{"age":age}})
-    return "ok";
-  }
-}
-
-class root{
-  @description('List of all users')
-  @field  @returnType('user')
-  users():Array<user>{
-    return db.user.find();
-  }
-}
+For more complexe case, check the [exemple](exemple/) folder.
 ```
 
