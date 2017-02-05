@@ -1,6 +1,6 @@
 {
   "name": "graphql-ts",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "description": "graphQL implementation for Typescript",
   "main": "index.js",
   "keywords":["graphql","typescript","decorator","metadata"],
@@ -15,7 +15,7 @@
     "graphql": "^0.9.0",
     "reflect-metadata": "^0.1.9"
   },
-  
+
   "scripts": {
     "test": "tsc && mocha exemple/test"
   },
