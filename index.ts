@@ -21,6 +21,9 @@ var mutations = { name: 'Mutation', fields:  {} };
 var haveMutation = false;
 var inputs = {};
 
+var entryQuery = '';
+var entryMutation = '';
+
 
 
 export function field(target: any, key: string) {
@@ -31,12 +34,21 @@ export function list(target: any, key: string) {
     listProcess(target, key, models)
 }
 
+
 export module graphqlTs {
     export function getSchema() {
-        var temp: any = {};
-        temp.query = models['root'];
-        if (haveMutation) temp.mutation = new GraphQLObjectType(mutations);
-        return new GraphQLSchema(temp);
+        var schema: any = {};
+        if(!entryQuery) {
+          throw new Error('You have to init the root query object')
+        }
+
+        schema.query = models[entryQuery];
+        if (haveMutation) schema.mutation = new GraphQLObjectType(mutations);
+        return new GraphQLSchema(schema);
+    }
+    export function init<T>(query:T) {
+      var queryObject = <any> query;
+      if(queryObject.constructor.name) entryQuery = queryObject.constructor.name;
     }
 }
 

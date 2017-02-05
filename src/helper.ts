@@ -10,6 +10,8 @@ import {
     GraphQLInputObjectType
 } from 'graphql';
 
+import {getDescription} from './metadata'
+
 
 
 export function $args(func) {
@@ -36,6 +38,8 @@ export function getGraphQLType(type: string):any {
 
 export function createIfObjectNotExist(target:any, obj:any){
   if (!obj[target.constructor.name]) {
+      console.log(JSON.stringify(target.constructor.name));
+      console.log( Reflect.hasOwnMetadata('desc',  target))
       obj[target.constructor.name] = new GraphQLObjectType({
           name: target.constructor.name,
           fields: {}
