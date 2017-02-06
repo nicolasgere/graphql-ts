@@ -12,6 +12,8 @@ import * as helper from './src/helper';
 import {fieldProcess} from './src/type/field';
 import {listProcess} from './src/type/list';
 import {mutationProcess} from './src/type/mutation';
+import {objectTypeProcess} from './src/type/objectType';
+
 import {inputProcess} from './src/type/input';
 import * as metadata from './src/metadata';
 import "reflect-metadata";
@@ -23,6 +25,12 @@ var inputs = {};
 
 var entryQuery = '';
 var entryMutation = '';
+
+
+
+export function objectType(target: any) {
+    objectTypeProcess(target,models);
+}
 
 
 
@@ -57,6 +65,10 @@ export function required(name: [string]) {
 }
 export function description(text: string) {
     return metadata.description(text);
+}
+
+export function nullable(nullable: boolean) {
+    return metadata.nullable(nullable);
 }
 export function returnType<T>(objectType: T) {
     var temp = <any>objectType;

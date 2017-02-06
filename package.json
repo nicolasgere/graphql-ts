@@ -17,7 +17,8 @@
   },
 
   "scripts": {
-    "test": "tsc && mocha exemple/test"
+    "test": "tsc && mocha exemple/test",
+    "expose": "tsc && node exemple/expose/index.js"
   },
   "author": "Nicolas Gere-lamaysouette",
   "license": "ISC"

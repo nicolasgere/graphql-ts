@@ -12,7 +12,7 @@ import {
 } from 'graphql';
 
 export function listProcess(target: any, key: string, models: any) {
-    helper.createIfObjectNotExist(target, models);
+    helper.createIfObjectNotExist(target.constructor.name, models);
     const typeInfo = Reflect.getMetadata("design:type", target, key);
     if (typeInfo.name == "Function") {
         const params = Reflect.getMetadata("design:paramtypes", target, key);

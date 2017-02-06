@@ -1,7 +1,8 @@
-import {field, graphqlTs, list, required, returnType, description} from './../../index';
+import {field, graphqlTs, list, required, returnType, description, objectType} from './../../index';
 import {dataUsers} from './data'
 import {user} from './user'
 
+@objectType @description('voila enfin le root')
 class root {
     @list @returnType(user)
     allUsers(firstName:string):user[]{

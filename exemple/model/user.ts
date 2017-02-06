@@ -1,8 +1,10 @@
-import {field, graphqlTs, list, required, returnType, mutation, input, inputListType} from './../../index';
+import {field, graphqlTs, list, required, returnType, mutation, objectType,description} from './../../index';
 import {friends,dataUsers } from './data'
 import {userInput} from './input/userInput';
 import {friendListInput} from './input/friendListInput';
 
+
+@objectType @description('description for user')
 export class user{
     @field
     firstName:string
@@ -13,7 +15,7 @@ export class user{
     @field
     age:number
 
-    @field
+    @field @description('fullname + firstName')
     fullName():string{
         return this.firstName + ' ' + this.lastName
     }
@@ -33,7 +35,7 @@ export class user{
       return  newUser;
     }
 
-    @mutation
+    @mutation @description('one mutation')
     createLinq(friends:friendListInput):String{
       return friends.names.join(',');
     }

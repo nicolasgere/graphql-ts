@@ -36,12 +36,15 @@ export function getGraphQLType(type: string):any {
     }
 }
 
-export function createIfObjectNotExist(target:any, obj:any){
-  if (!obj[target.constructor.name]) {
-      obj[target.constructor.name] = new GraphQLObjectType({
-          name: target.constructor.name,
-          fields: {}
+export function createIfObjectNotExist(name:any, models:any, description?:any){
+  if (!models[name]) {
+      models[name] = new GraphQLObjectType({
+          name: name,
+          fields: {},
+          description: description || ''
       })
+  }else if(description){
+    models[name].description = description;
   }
 }
 export function createInputObjectIfNotExist(target:any, obj:any){

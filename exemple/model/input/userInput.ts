@@ -1,11 +1,11 @@
-import {field, graphqlTs, list, required, returnType, mutation, input, inputListType} from './../../../index';
+import {input, inputListType, nullable} from './../../../index';
 
 
 export class userInput{
   @input
   firstName:string
 
-  @input
+  @input @nullable(false)
   lastName:string
 
   @input

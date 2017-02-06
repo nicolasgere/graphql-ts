@@ -30,12 +30,14 @@ export function mutationProcess(target: any, key: string, models:any, mutations:
             mutations.fields[key] = {
                 type: new GraphQLList(tempType),
                 resolve: wrapFunction,
+                description:metadata.getDescription(target,key),
                 args: helper.convertArgsToGraphQL(args, argsRequired, inputs)
             }
         } else {
           mutations.fields[key] = {
               type: models[returntype.name] || helper.getGraphQLType(returntype.name),
               resolve: wrapFunction,
+              description:metadata.getDescription(target,key),
               args: helper.convertArgsToGraphQL(args, argsRequired, inputs)
           }
         }
