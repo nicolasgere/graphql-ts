@@ -3,5 +3,5 @@ node_js:
   - "6"
 before_script:
   - npm i -g typescript
-  - npm install chai mocha @types/mocha @types/chai
+  - npm install express express-graphql chai mocha @types/mocha @types/chai @types/express @types/express-graphql
   - tsc

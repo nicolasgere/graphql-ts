@@ -24,6 +24,38 @@ describe('Mutation', () => {
         done(err);
       })
   });
+  it('create user with userInput missing a nullable field', (done) => {
+    graphql(schema(), `
+        mutation Exemple {
+          addUser (userInput:{firstName:"ron", lastName:"weisley"}){
+            firstName,
+            lastName,
+            age
+          }
+        }
+    `).then((res: any) => {
+        expect(res.data.addUser.firstName).to.equal('ron');
+        done();
+      }).catch((err) => {
+        done(err);
+      })
+  });
+  it('create user with userInput for test the nonNull component', (done) => {
+    graphql(schema(), `
+        mutation Exemple {
+          addUser (userInput:{firstName:"ron", age:18}){
+            firstName,
+            lastName,
+            age
+          }
+        }
+    `).then((res: any) => {
+        expect(res.errors).to.not.be.undefined;
+        done();
+      }).catch((err) => {
+        done(err);
+      })
+  });
   it('use input list', (done) => {
     graphql(schema(), `
         mutation Exemple {
