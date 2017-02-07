@@ -1,15 +1,14 @@
 import { expect } from 'chai';
-import { schema } from './../model/root';
+import { root } from './../model/root';
+import { graphqlTs } from './../../index';
 
-import {
-  graphql
-} from 'graphql';
+
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 // import 'mocha';
-
+graphqlTs.init(new root());
 describe('Field', () => {
   it('should project list of users', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
       {
         allUsers{
           firstName,
@@ -25,7 +24,7 @@ describe('Field', () => {
 
   });
   it('should resolve static function', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
       {
         allUsers{
           fullName
@@ -39,7 +38,7 @@ describe('Field', () => {
       })
   });
   it('should resolve static function with simple argument', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
       {
         allUsers(firstName:"hermione"){
           firstName
@@ -54,7 +53,7 @@ describe('Field', () => {
       })
   });
   it('should resolve static function with simple require argument', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
       {
         user(firstName:"hermione"){
           firstName
@@ -68,7 +67,7 @@ describe('Field', () => {
       })
   });
    it('should have an error cause argument is missing', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
       {
         user{
           firstName
@@ -82,7 +81,7 @@ describe('Field', () => {
       })
   });
   it('should have one friend and harry', (done) => {
-   graphql(schema(), `
+   graphqlTs.query(`
      {
        user(firstName:"hermione"){
          firstName
@@ -101,7 +100,7 @@ describe('Field', () => {
      })
  });
  it('should have no friend', (done) => {
-  graphql(schema(), `
+  graphqlTs.query(`
     {
       user(firstName:"drago"){
         firstName
@@ -118,4 +117,33 @@ describe('Field', () => {
       done(err);
     })
 });
+it('should have note', (done) => {
+  graphqlTs.query(`
+    {
+      user(firstName:"drago"){
+        notes
+        
+      }
+    }
+  `).then((res: any) => {
+      expect(res.data.user.notes.length).to.equal(2);
+      done();
+    }).catch((err) => {
+      done(err);
+    })
+});
+it('should be a date using the scalar', (done) => {
+  graphqlTs.query(`
+    {
+      user(firstName:"drago"){
+        birthday
+      }
+    }
+  `).then((res: any) => {
+      expect(res.data.user.birthday).to.equal('1990-10-10T04:00:00.000Z');
+      done();
+    }).catch((err) => {
+      done(err);
+    })
+})
 });

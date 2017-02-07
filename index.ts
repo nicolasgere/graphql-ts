@@ -1,3 +1,4 @@
+
 import {
   graphql,
   GraphQLSchema,
@@ -5,68 +6,66 @@ import {
   GraphQLString,
   GraphQLFloat,
   GraphQLList,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLInputObjectType,
+  GraphQLScalarType
 } from 'graphql';
 
+import { Kind } from 'graphql/language'
 import * as helper from './src/helper';
-import {fieldProcess} from './src/type/field';
-import {listProcess} from './src/type/list';
-import {mutationProcess} from './src/type/mutation';
-import {objectTypeProcess} from './src/type/objectType';
-
-import {inputProcess} from './src/type/input';
+import { mutationProcess } from './src/type/mutation';
 import * as metadata from './src/metadata';
 import "reflect-metadata";
 
-var models = {};
-var models2:any = {};
-var mutations = { name: 'Mutation', fields:  {} };
+
+var models: any = {};
+var schema: any = {};
+var mutations = { name: 'Mutation', fields: {} };
 var haveMutation = false;
-var inputs = {};
-
+var mutationsArray = [];
 var entryQuery = '';
-var entryMutation = '';
-
-
-var fields = {};
+var object = {};
 
 
 class item {
-  type:string;
-  decorator:string;
-  target:any;
-  key:any;
-  description:string;
-  nullable:boolean;
-  required:string[];
-  returnType:string;
-  params:any;
-  constructor(decorator:string,target:any, key:any){
+  type: string;
+  decorator: string;
+  target: any;
+  key: any;
+  description: string;
+  nullable: boolean;
+  required: string[];
+  returnType: string;
+  params: any;
+  constructor(decorator: string, target: any, key: any) {
     this.decorator = decorator;
     this.target = target;
     this.key = key;
-    this.description = metadata.getDescription(this.target,this.key);
-    this.nullable = metadata.getNullable(this.target,key);
+    this.description = metadata.getDescription(this.target, this.key);
+    this.nullable = metadata.getNullable(this.target, key);
     this.type = Reflect.getMetadata("design:type", this.target, this.key).name;
-    switch (this.type)
-    {
-      case'Function':
-      this.required = metadata.getRequired(this.target,this.key);
-      this.returnType = metadata.getReturn(this.target,this.key) || Reflect.getMetadata("design:returntype", this.target, this.key).name;
-      this.params = helper.getArgs(target,key, Reflect.getMetadata("design:paramtypes", this.target, this.key));
-      break;
+    switch (this.type) {
+      case 'Function':
+        this.required = metadata.getRequired(this.target, this.key);
+        let temp = metadata.getReturn(this.target, this.key) || Reflect.getMetadata("design:returntype", this.target, this.key);
+        this.returnType = temp && temp.name  ? temp.name : temp;
+        var paramType = Reflect.getMetadata("design:paramtypes", this.target, this.key)
+        if(paramType) this.params = helper.getArgs(target, key, paramType);
+        break;
+      case 'Array':
+        this.returnType = metadata.getReturn(this.target, this.key) || Reflect.getMetadata("design:returntype", this.target, this.key).name;
+        break;
       default:
-
     }
   }
 }
 
-class property{
-  target:any;
-  type:string;
-  description:string;
-  name:string;
-  constructor(type:string,target:any) {
+class property {
+  target: any;
+  type: string;
+  description: string;
+  name: string;
+  constructor(type: string, target: any) {
     this.target = target;
     this.type = type;
     this.name = target.name;
@@ -74,105 +73,172 @@ class property{
   }
 }
 
-function buildSchema(entryPoint:string){
+function populateWithScalar(){
 
-  var obj = fields[entryPoint];
-  if(!obj) throw new Error(`${entryPoint} is not valid`);
-  var property:property = <property> obj.property;
-  switch(property.type){
-    case 'objectType':
-    console.log('ON BUILD '+ property.name);
-    models2[property.name] = new GraphQLObjectType({
-      name: property.name,
-      fields: {},
-      description: property.description
-    });
-    for (let key in obj.items) {
-      let item = <item>obj.items[key];
-      switch(item.type){
-        case 'Function':
-        let type = helper.getGraphQLType(item.returnType) || models2[item.returnType];
-        if(!type){
-          type = buildSchema(item.returnType);
-        }
-        if(item.decorator == 'list') type = new GraphQLList(type);
-        if(!item.nullable) type = new GraphQLNonNull(type);
+}
 
-        var wrapFunction = function(_:any, data:any) {
-          var paramsTemp = item.params.map(function(param){
-            return data[param.name] ? data[param.name] : undefined;
-          })
-          return item.target[item.key].apply(_,paramsTemp);
-        }
-        models2[property.name]._typeConfig.fields[key] = {
-          type: type,
-          resolve: wrapFunction,
-          description:item.description,
-          args: helper.convertArgsToGraphQL(item.params, item.required, null)
-        }
-        break;
-        default:
-        let type2 = helper.getGraphQLType(item.type) || models2[item.type];
-        if(!item.nullable) type2 = new GraphQLNonNull(type2);
+function buildSchema(entryPoint: string) {
 
-        if(!type2){
-          type2 = buildSchema(item.type);
+  var obj = object[entryPoint];
+  if (!obj) throw new Error(`${entryPoint} is not valid`);
+  var property: property = <property>obj.property;
+  switch (property.type) {
+    case 'objectType': {
+
+      models[property.name] = new GraphQLObjectType({
+        name: property.name,
+        fields: {},
+        description: property.description
+      });
+      for (let key in obj.items) {
+
+        let item = <item>obj.items[key];
+
+        switch (item.type) {
+          case 'Function': {
+            let type = helper.getGraphQLType(item.returnType) || models[item.returnType];
+            if (!type) {
+              type = buildSchema(item.returnType);
+            }
+            if (item.decorator == 'list') type = new GraphQLList(type);
+            if (!item.nullable) type = new GraphQLNonNull(type);
+            var wrapFunction = function (_: any, data: any) {
+              var paramsTemp = item.params.map(function (param) {
+                return data[param.name] ? data[param.name] : undefined;
+              })
+              
+              return item.target[item.key].apply(_, paramsTemp);
+            }
+            models[property.name]._typeConfig.fields[key] = {
+              type: type,
+              resolve: wrapFunction,
+              description: item.description,
+              args: helper.convertArgsToGraphQL(item.params, item.required, null)
+            }
+            break;
+          }
+          default:
+            let type = helper.getGraphQLType(item.type) || models[item.type];
+            if (!type && item.decorator == 'list') {
+              type = helper.getGraphQLType(item.returnType) || models[item.returnType];
+            }
+            if (!type) {
+              type = buildSchema(item.type);
+            }
+
+            if (item.decorator == 'list') type = new GraphQLList(type);
+            if (!item.nullable) type = new GraphQLNonNull(type);
+            models[property.name]._typeConfig.fields[key] = {
+              type: type,
+              description: item.description,
+            }
+            break;
         }
-        models2[property.name]._typeConfig.fields[key] = {
-          type: type2,
-          description:item.description,
-        }
-        break;
       }
+      break;
     }
-    break;
+    case 'inputType': {
+      models[property.name] = new GraphQLInputObjectType({
+        name: property.name,
+        description: property.description,
+        fields: {}
+      })
+      for (let key in obj.items) {
+        let item = <item>obj.items[key];
+        switch (item.decorator) {
+          case 'list':
+            let type = helper.getGraphQLType(item.returnType) || models[item.returnType];
+            if (!type) {
+              type = buildSchema(item.returnType);
+            }
+            type = new GraphQLList(type);
+            if (!item.nullable) type = new GraphQLNonNull(type);
+
+            models[property.name]._typeConfig.fields[key] = {
+              type: type,
+              description: item.description
+            }
+            break;
+          default:
+            let type2 = helper.getGraphQLType(item.type) || models[item.type];
+            if (!item.nullable) type2 = new GraphQLNonNull(type2);
+            if (!type2) {
+              type2 = buildSchema(item.type);
+            }
+
+            models[property.name]._typeConfig.fields[key] = {
+              type: type2,
+              description: item.description,
+            }
+
+            break;
+        }
+      }
+      break;
+    }
+    case 'scalarType': {
+      var items = obj.items;
+      let temp:any = {name:property.name}
+      for (let key in obj.items) {
+          temp[key] = obj.items[key].target[key];
+      }
+      models[property.name] = new GraphQLScalarType(temp)
+      break;
+    }
   }
-  return models2[property.name];
+  return models[property.name];
 }
 
 export function objectType(target: any) {
-  objectTypeProcess(target,models);
-  if(!fields[target.name]) fields[target.name] = {items:{}, property:{}};
-  fields[target.name].property= new property('objectType',target);
+  if (!object[target.name]) object[target.name] = { items: {}, property: {} };
+  object[target.name].property = new property('objectType', target);
+}
+export function inputType(target: any) {
+  if (!object[target.name]) object[target.name] = { items: {}, property: {} };
+  object[target.name].property = new property('inputType', target);
+  buildSchema(target.name);
 }
 
 
 
 export function field(target: any, key: string) {
-  fieldProcess(target, key, models)
-  if(!fields[target.constructor.name]) fields[target.constructor.name] = {items:{}, property:{}};
-
-  var temp = new item('field',target,key)
-  fields[target.constructor.name].items[key] = temp;
+  if (!object[target.constructor.name]) object[target.constructor.name] = { items: {}, property: {} };
+  var temp = new item('field', target, key)
+  object[target.constructor.name].items[key] = temp;
 }
 
 export function list(target: any, key: string) {
-  listProcess(target, key, models)
-  if(!fields[target.constructor.name]) fields[target.constructor.name] = {items:{}, property:{}};
+  if (!object[target.constructor.name]) object[target.constructor.name] = { items: {}, property: {} };
+  var temp = new item('list', target, key)
+  object[target.constructor.name].items[key] = temp;
+}
 
-  var temp = new item('list',target,key)
-  fields[target.constructor.name].items[key] = temp;
+export function scalarType(target: any) {
+  if (!object[target.name]) object[target.name] = { items: {}, property: {} };
+  object[target.name].property = new property('scalarType', target);
 }
 
 
 export module graphqlTs {
   export function getSchema() {
-    var schema: any = {};
-    if(!entryQuery) {
-      throw new Error('You have to init the root query object')
-    }
-    console.log(JSON.stringify(models2.root, null, 2));
-
-    schema.query = models2[entryQuery];
-
-    //if (haveMutation) schema.mutation = new GraphQLObjectType(mutations);
-    return new GraphQLSchema(schema);
+    return schema;
   }
-  export function init<T>(query:T) {
+  export function init<T>(query: T) {
 
-    var queryObject = <any> query;
-    if(queryObject.constructor.name) entryQuery = queryObject.constructor.name;
+    var queryObject = <any>query;
+    if (queryObject.constructor.name) entryQuery = queryObject.constructor.name;
+    populateWithScalar()
     buildSchema(entryQuery);
+    mutationsArray.forEach(function (item) {
+      mutationProcess(item.target, item.key, models, mutations, models)
+    })
+    schema.query = models[entryQuery];
+
+    if (haveMutation) schema.mutation = new GraphQLObjectType(mutations);
+    schema = new GraphQLSchema(schema);
+  }
+  export function query (query:string):Promise<any>{
+   return graphql(getSchema(),query);
   }
 }
 
@@ -190,16 +256,13 @@ export function returnType<T>(objectType: T) {
   var temp = <any>objectType;
   return metadata.returnType(temp.name);
 }
-export function inputListType<T>(objectType: T) {
-  var temp = <any>objectType;
-  return metadata.inputListType(temp.name);
-}
 
 export function mutation(target: any, key: string) {
   haveMutation = true;
-  mutationProcess(target, key, models, mutations, inputs)
+  mutationsArray.push({
+    target: target,
+    key: key
+  })
 }
 
-export function input(target: any, key: string) {
-  inputProcess(target, key, models, inputs);
-}
+

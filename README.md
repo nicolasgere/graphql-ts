@@ -3,6 +3,7 @@
 [![npm version](https://badge.fury.io/js/graphql-ts.svg)](https://badge.fury.io/js/graphql-ts)
 
 The Typescrit implementation for GraphQL, a query language for APIs created by Facebook.
+See specification here http://graphql.org/
 
 
 
@@ -10,7 +11,7 @@ The Typescrit implementation for GraphQL, a query language for APIs created by F
 ## Getting Started
 
 That package is currently in development and not ready for PRODUCTION. Graphql.ts use decorator and metadata for generate a graphql.js model. The why of this package is to provide a suger syntax for Typescript and use the power of the typings.
-Feel free to contribute, any feedback or stars are welcome.
+Feel free to contribute, any issues, pull request or stars are welcome.
 
 ### Using GraphQL.ts
 
@@ -38,8 +39,9 @@ GraphQL.ts provides the capabilities to build the schema. This schema will be in
 First, build a GraphQL type schema which maps to your code base.
 
 ```ts
-import {field} from 'graphql-ts'
+import {field, objectType   } from 'graphql-ts'
 
+@objectType
 class root{
   @field
   hello():string{
@@ -89,8 +91,8 @@ class root{
 }
 graphqlTs.init(new root());
 
-var query = '{ hello }';
-graphql(graphqlTs.getSchema(), query).then(result => {
+var queryString = '{ hello }';
+graphqlTs.query(queryString).then(result => {
 
   // Prints
   // {
@@ -102,15 +104,117 @@ graphql(graphqlTs.getSchema(), query).then(result => {
 ```
 ### Decorator
 Graphql-ts work with decorator for annotate the code and then generate the model
++ <code><strong>@objectType</strong></code> create an object type with the class name as name
+```ts
+@objectType
+class user{
+  @field
+  name:string
+}
+```
 
-+ <code><strong>@field</strong></code> add the field in the model, the object will be create with the class name. If it's a function, this will be the resolve
-+ <code><strong>@description(name:string)</strong></code> add a description to the field or the class
-+ <code><strong>@required(['paramName'])</strong></code> no other way for the moment to set a params as non null
-+ <code><strong>@returnType('typeName')</strong></code> return type of the resolve, this is need only for the array, for exemple if you want to return [string], the decorator will be @returnType('string')
++ <code><strong>@inputType</strong></code> create an input object type with the class name as name
+```ts
+@inputType
+class userInput{
+    @field
+    name:string
+}
+```
++ <code><strong>@scalarType</strong></code> create a scalar type, for more information about the scalar in graphql check [here](http://graphql.org/graphql-js/type/#graphqlscalartype)
+
+```ts
+@scalarType
+export class DateQl {
+    @field
+    serialize(value: any) {
+        //you're code here
+    };
+    @field
+    parseValue(value: any) {
+        //you're code here
+    }
+    @field
+    parseLiteral(valueNode: any): any {
+        //you're code here
+    }
+```
++ <code><strong>@field</strong></code> add the field in the model, if it's a function, that will be use a resolve 
+```ts
+@objectType
+class user{
+  @field
+  name:string
+  
+  @field
+  name:string
+  
+  @field
+  fullName():string{
+    return this.firstName + ' ' + this.lastName
+  }
+}
+```
+
++ <code><strong>@description(name:string)</strong></code> add a description to the field or the object
+```ts
+@objectType
+class user{
+  @field  @description('The name of the user')
+  name:string
+}
+```
++ <code><strong>@list</strong></code> same as field but return a list, for more information about the list in graphql check [here](http://graphql.org/graphql-js/type/#graphqllist)
++  <code><strong>@returnType(Type)</strong></code> Cause of lack in typescript about emit decorator for complexe object, when we returne an object<T>, Array<T> for exemple, we are not able to have the T type, so that's why we need to specify that T using the @returnType
+```ts
+@objectType
+class user{
+  @field  @description('The name of the user')
+  name:string
+  
+  @list @returnType(Number)
+  notes:number[]
+  
+  @list @returnType(user)
+  friends():user[]{
+    return dataUsers({friends:this.name});
+   }
+}
+```
+
++ <code><strong>@required(['paramName'])</strong></code> set a params as required
+```ts
+@objectType @description('voila enfin le root')
+export class root {
+    @field @returnType(user) @required(['firstName'])
+    user(firstName:string):user{
+        return dataUsers({name:firstName}).firstOrDefault();
+    }
+}
+```
 + <code><strong>@nullable(boolean)</strong></code> set a field or input nullable or not, by default is true
-+ <code><strong>@mutation</strong></code> create a mutation
-+ <code><strong>@input</strong></code> equivalent of @field but for inputType
-+ <code><strong>@inputListType('typeName')</strong></code> set the type of an array for an input field
+```ts
+@inputType
+export class userInput{
+  @field //nullable is true by default
+  firstName:string
+
+  @field @nullable(false)
+  lastName:string
+
+  @list @returnType(String) @nullable(false)
+  friends:string[]
+}
+```
++ <code><strong>@mutation</strong></code> create a mutation, see [here](http://graphql.org/graphql-js/mutations-and-input-types/) for more information
+```ts
+   @mutation
+    addUser(userInput:userInput):user{
+      let newUser = new user();
+      dataUsers().push(<any>newUser);
+      return  newUser;
+    }
+```
 
 ###More complex exemple
 

@@ -1,13 +1,13 @@
-import {input, inputListType, nullable} from './../../../index';
+import {field, inputType, nullable} from './../../../index';
 
-
+@inputType
 export class userInput{
-  @input
+  @field
   firstName:string
 
-  @input @nullable(false)
+  @field @nullable(false)
   lastName:string
 
-  @input
+  @field
   age:number
 }
