@@ -10,7 +10,7 @@ The Typescrit implementation for GraphQL, a query language for APIs created by F
 ## Getting Started
 
 That package is currently in development and not ready for PRODUCTION. Graphql.ts use decorator and metadata for generate a graphql.js model. The why of this package is to provide a suger syntax for Typescript and use the power of the typings.
-Feel free to contribute, any feedback or stars are welcome. 
+Feel free to contribute, any feedback or stars are welcome.
 
 ### Using GraphQL.ts
 
@@ -104,9 +104,10 @@ graphql(graphqlTs.getSchema(), query).then(result => {
 Graphql-ts work with decorator for annotate the code and then generate the model
 
 + <code><strong>@field</strong></code> add the field in the model, the object will be create with the class name. If it's a function, this will be the resolve
-+ <code><strong>@description(name:string)</strong></code> add a description to the field
++ <code><strong>@description(name:string)</strong></code> add a description to the field or the class
 + <code><strong>@required(['paramName'])</strong></code> no other way for the moment to set a params as non null
 + <code><strong>@returnType('typeName')</strong></code> return type of the resolve, this is need only for the array, for exemple if you want to return [string], the decorator will be @returnType('string')
++ <code><strong>@nullable(boolean)</strong></code> set a field or input nullable or not, by default is true
 + <code><strong>@mutation</strong></code> create a mutation
 + <code><strong>@input</strong></code> equivalent of @field but for inputType
 + <code><strong>@inputListType('typeName')</strong></code> set the type of an array for an input field
@@ -115,4 +116,3 @@ Graphql-ts work with decorator for annotate the code and then generate the model
 
 For more complexe case, check the [exemple](exemple/) folder.
 ```
-

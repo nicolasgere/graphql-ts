@@ -35,16 +35,17 @@ export function fieldProcess(target: any, key: string, models:any) {
                 args: helper.convertArgsToGraphQL(args, argsRequired,null)
             }
         } else {
+          var tempType = models[returntype.name] || helper.getGraphQLType(returntype.name)
           models[target.constructor.name]._typeConfig.fields[key] = {
-              type: models[returntype.name] || helper.getGraphQLType(returntype.name),
+              type:  metadata.getNullable(target,key) ? tempType : new GraphQLNonNull(tempType),
               resolve: wrapFunction,
               description:metadata.getDescription(target,key),
               args: helper.convertArgsToGraphQL(args, argsRequired, null)
           }
         }
     } else {
-        models[target.constructor.name]._typeConfig.fields[key] = {
-            type: helper.getGraphQLType(typeInfo.name),
+       models[target.constructor.name]._typeConfig.fields[key] = {
+            type: metadata.getNullable(target,key) ? helper.getGraphQLType(typeInfo.name) : new GraphQLNonNull(helper.getGraphQLType(typeInfo.name)),
             description:metadata.getDescription(target,key)
         }
     }

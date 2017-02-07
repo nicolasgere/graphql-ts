@@ -1,4 +1,4 @@
-import {field, graphqlTs, list, required, returnType, mutation, objectType,description} from './../../index';
+import {field, graphqlTs, list, required, returnType, mutation, objectType,description, nullable} from './../../index';
 import {friends,dataUsers } from './data'
 import {userInput} from './input/userInput';
 import {friendListInput} from './input/friendListInput';
@@ -6,7 +6,7 @@ import {friendListInput} from './input/friendListInput';
 
 @objectType @description('description for user')
 export class user{
-    @field
+    @field @nullable(false)
     firstName:string
 
     @field
