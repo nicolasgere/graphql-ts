@@ -39,7 +39,7 @@ GraphQL.ts provides the capabilities to build the schema. This schema will be in
 First, build a GraphQL type schema which maps to your code base.
 
 ```ts
-import {field, objectType   } from 'graphql-ts'
+import {field, objectType} from 'graphql-ts'
 
 @objectType
 class root{
