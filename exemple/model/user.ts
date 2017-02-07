@@ -1,3 +1,4 @@
+import { DateQl } from './scalar/date';
 import {field, graphqlTs, list, required, returnType, mutation, objectType,description, nullable} from './../../index';
 import {friends,dataUsers } from './data'
 import {userInput} from './input/userInput';
@@ -11,9 +12,15 @@ export class user{
 
     @field
     lastName:string
-
+ 
     @field
     age:number
+
+    @field
+    birthday?: DateQl
+
+    @list @returnType(Number)
+    notes:number[]
 
     @field @description('fullname + firstName')
     fullName():string{
@@ -22,7 +29,7 @@ export class user{
 
     @list @returnType(user)
     friends():user[]{
-        return dataUsers().filter((x:user)=>{return friends()[this.firstName].indexOf(x.firstName) != -1 }) as user[]
+        return dataUsers().filter((x)=>{return friends()[this.firstName].indexOf(x.firstName) != -1 }) as any
     }
 
     @mutation
@@ -31,7 +38,8 @@ export class user{
       newUser.firstName = userInput.firstName;
       newUser.lastName = userInput.lastName;
       newUser.age = userInput.age;
-      dataUsers().push(newUser);
+      
+      dataUsers().push(<any>newUser);
       return  newUser;
     }
 

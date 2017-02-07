@@ -1,6 +1,7 @@
-import {field, graphqlTs, list, required, returnType, mutation, input, inputListType, nullable} from './../../../index';
+import {field, graphqlTs, list, required, returnType, mutation, nullable, inputType} from './../../../index';
 
+@inputType
 export class friendListInput{
-   @input @inputListType(String) @nullable(false)
+   @list @returnType(String) @nullable(false)
    names:string[]
 }

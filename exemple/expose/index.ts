@@ -1,13 +1,17 @@
 import * as  express from 'express';
 import * as  graphqlHTTP from 'express-graphql';
-import { schema } from './../model/root';
+import { root } from './../model/root';
+import { graphqlTs } from './../../index';
+
 
 
 
 const app = express();
 
+graphqlTs.init(new root());
+
 app.use('/graphql', graphqlHTTP({
-  schema: schema(),
+  schema: graphqlTs.getSchema(),
   graphiql: true
 }));
 

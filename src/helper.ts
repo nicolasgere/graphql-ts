@@ -56,6 +56,7 @@ export function createInputObjectIfNotExist(target:any, obj:any){
   }
 }
 export function getArgs(target:any, key:any, params:any){
+
   return $args(target[key]).map(function(item, i) {
       return { name: item, type: params[i].name };
   });

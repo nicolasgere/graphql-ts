@@ -1,15 +1,13 @@
 import { expect } from 'chai';
-import { schema } from './../model/root';
+import { graphqlTs } from './../../index';
 
-import {
-  graphql
-} from 'graphql';
+
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 // import 'mocha';
 
 describe('Mutation', () => {
   it('create user with userInput', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
         mutation Exemple {
           addUser (userInput:{firstName:"ron", lastName:"weisley", age:18}){
             firstName,
@@ -25,7 +23,7 @@ describe('Mutation', () => {
       })
   });
   it('create user with userInput missing a nullable field', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
         mutation Exemple {
           addUser (userInput:{firstName:"ron", lastName:"weisley"}){
             firstName,
@@ -41,7 +39,7 @@ describe('Mutation', () => {
       })
   });
   it('create user with userInput for test the nonNull component', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
         mutation Exemple {
           addUser (userInput:{firstName:"ron", age:18}){
             firstName,
@@ -57,7 +55,7 @@ describe('Mutation', () => {
       })
   });
   it('use input list', (done) => {
-    graphql(schema(), `
+    graphqlTs.query(`
         mutation Exemple {
           createLinq (friends:{names:["hermione", "ron"]})
         }
