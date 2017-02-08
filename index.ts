@@ -102,11 +102,12 @@ function buildSchema(entryPoint: string) {
             }
             if (item.decorator == 'list') type = new GraphQLList(type);
             if (!item.nullable) type = new GraphQLNonNull(type);
-            var wrapFunction = function (_: any, data: any) {
+            var wrapFunction = function (_: any, data: any, context:any) {
+              _.contextQl = context;
               var paramsTemp = item.params.map(function (param) {
                 return data[param.name] ? data[param.name] : undefined;
               })
-              
+
               return item.target[item.key].apply(_, paramsTemp);
             }
             models[property.name]._typeConfig.fields[key] = {
@@ -264,5 +265,3 @@ export function mutation(target: any, key: string) {
     key: key
   })
 }
-
-
