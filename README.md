@@ -87,6 +87,7 @@ import {graphql} from 'graphql'
 class root{
   @field
   hello():string{
+   return "world"
   }
 }
 graphqlTs.init(new root());
