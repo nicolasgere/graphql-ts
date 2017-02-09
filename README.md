@@ -87,6 +87,7 @@ import {graphql} from 'graphql'
 class root{
   @field
   hello():string{
+   return "world"
   }
 }
 graphqlTs.init(new root());
@@ -139,18 +140,20 @@ export class DateQl {
         //you're code here
     }
 ```
-+ <code><strong>@field</strong></code> add the field in the model, if it's a function, that will be use a resolve 
++ <code><strong>@field</strong></code> add the field in the model, if it's a function, it will be use as resolve.
+In the resolve, 'this' will be the equivalent of _ in graphql, and the context will be in this.contextQl
 ```ts
 @objectType
 class user{
   @field
   name:string
-  
+
   @field
   name:string
-  
+
   @field
   fullName():string{
+    console.log(this.contextQl) //value of the context, by default req
     return this.firstName + ' ' + this.lastName
   }
 }
@@ -171,10 +174,10 @@ class user{
 class user{
   @field  @description('The name of the user')
   name:string
-  
+
   @list @returnType(Number)
   notes:number[]
-  
+
   @list @returnType(user)
   friends():user[]{
     return dataUsers({friends:this.name});
