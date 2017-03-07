@@ -103,6 +103,7 @@ function buildSchema(entryPoint: string) {
             if (item.decorator == 'list') type = new GraphQLList(type);
             if (!item.nullable) type = new GraphQLNonNull(type);
             var wrapFunction = function (_: any, data: any, context:any) {
+              if(!_) _ = {};
               _.contextQl = context;
               var paramsTemp = item.params.map(function (param) {
                 return data[param.name] ? data[param.name] : undefined;
