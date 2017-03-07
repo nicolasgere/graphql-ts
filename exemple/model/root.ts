@@ -10,7 +10,7 @@ export class root {
     }
 
     @field @returnType(user) @required(['firstName'])
-    user(firstName:string):user{
+    user(firstName:string, _context:any):user{
         return dataUsers().filter((x)=>{return !firstName || firstName == x.firstName})[0] as any
     }
 }

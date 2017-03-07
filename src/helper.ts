@@ -56,18 +56,19 @@ export function createInputObjectIfNotExist(target:any, obj:any){
   }
 }
 export function getArgs(target:any, key:any, params:any){
-
   return $args(target[key]).map(function(item, i) {
-      return { name: item, type: params[i].name };
+    return { name: item, type: params[i].name };
   });
 }
 export function convertArgsToGraphQL(args:any, argsRequired:any, inputs:any){
   var temp = {};
   args.forEach(function(item) {
+        if(item.name =='_context') return;
         let type = getGraphQLType(item.type)
-        if(!type){
+        if(!type && inputs){
           type = inputs[item.type];
         }
+        if(!type) throw new Error(`${item.name} must have a knowing type`);
       if(argsRequired.indexOf(item.name)!=-1){
         temp[item.name] = { "type": new GraphQLNonNull(type)};
       }else{
