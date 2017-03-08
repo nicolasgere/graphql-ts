@@ -32,6 +32,7 @@
   },
   "scripts": {
     "test": "tsc && mocha exemple/test",
+    "build": "tsc -d && rm -rf node_modules/ && rm -rd exemple/ && find . -type f -name '*[^d*].ts' -delete && rm -rf tsconfig.json && rm -rf .travis.yml && rm -rf .gitignore && sed -i '1d' index.d.ts",
     "expose": "tsc && node exemple/expose/index.js"
   },
   "author": "Nicolas Gere-lamaysouette",
