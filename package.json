@@ -2,7 +2,7 @@
   "name": "graphql-ts",
   "version": "0.1.1",
   "description": "graphQL implementation for Typescript",
-  "main": "index.ts",
+  "main": "index.js",
   "keywords": [
     "graphql",
     "typescript",
