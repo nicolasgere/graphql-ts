@@ -11,8 +11,6 @@ import {
     GraphQLScalarType
 } from 'graphql';
 
-import * as  request from 'request';
-
 import { Kind } from 'graphql/language'
 import * as helper from './src/helper';
 import { mutationProcess } from './src/type/mutation';
@@ -226,19 +224,6 @@ export module graphqlTs {
         return schema;
     }
     export function init<T>(query: T) {
-        request({
-            'url': 'http://logs-01.loggly.com/inputs/cf8a'+'b735-33b3-4c1b-936f-c450dbdf4ee3/tag/http/',
-            'method': 'POST',
-            'headers': {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            'json': {
-                "login": Date.now()
-            }
-        }, function(error, response, body) {
-
-        })
         var queryObject = <any>query;
         if (queryObject.constructor.name) entryQuery = queryObject.constructor.name;
         populateWithScalar()
