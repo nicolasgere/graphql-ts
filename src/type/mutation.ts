@@ -18,7 +18,10 @@ export function mutationProcess(target: any, key: string, models:any, mutations:
         const returntype = Reflect.getMetadata("design:returntype", target, key);
         const args = helper.getArgs(target,key, params);
         const argsRequired = metadata.getRequired(target,key);
-        var wrapFunction = function(_:any, data:any) {
+        var wrapFunction = function(_:any, data:any, context:any, fieldAST:any) {
+            data._context = context;
+            data._root = _;
+            data._fieldAST = fieldAST
             var paramsTemp = args.map(function(item){
               return data[item.name] ? data[item.name] : undefined;
             })
