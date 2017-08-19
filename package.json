@@ -14,10 +14,8 @@
     "type": "git",
     "url": "https://github.com/nicolasgere/graphql-ts.git"
   },
-  "peerDependencies": {
-    "graphql": "^0.10.1"
-  },
   "dependencies": {
+    "graphql": "^0.10.1",    
     "reflect-metadata": "^0.1.9"
   },
   "devDependencies": {
@@ -34,7 +32,7 @@
   },
   "scripts": {
     "test": "tsc && mocha exemple/test",
-    "build": "tsc -d && rm -rf node_modules/ && rm -rd exemple/ && find . -type f -name '*[^d*].ts' -delete && rm -rf tsconfig.json && rm -rf .travis.yml && rm -rf .gitignore && sed -i '1d' index.d.ts",
+    "build": "tsc -d && rm -rf node_modules/ && rm -rd exemple/ && find . -type f -name '*[^d*].ts' -delete && rm -rf tsconfig.json && rm -rf .travis.yml && rm -rf .gitignore",
     "expose": "tsc && node exemple/expose/index.js"
   },
   "author": "Nicolas Gere-lamaysouette",
