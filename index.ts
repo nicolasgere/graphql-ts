@@ -73,9 +73,7 @@ class property {
     }
 }
 
-function populateWithScalar() {
 
-}
 
 function buildSchema(entryPoint: string) {
 
@@ -228,7 +226,7 @@ export module graphqlTs {
     export function init<T>(query: T) {
         var queryObject = <any>query;
         if (queryObject.constructor.name) entryQuery = queryObject.constructor.name;
-        populateWithScalar()
+        
         buildSchema(entryQuery);
         mutationsArray.forEach(function(item) {
             mutationProcess(item.target, item.key, models, mutations, models)
