@@ -56,7 +56,6 @@ This code will generate at the runtime the equivalent  model
 
 ```js
 import {
-  graphql,
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString
@@ -81,9 +80,10 @@ var schema = new GraphQLSchema({
 Then, serve the result of a query against that schema.
 
 ```ts
-import {graphqlTs} from 'graphql-ts'
-import {graphql} from 'graphql'
+import {graphqlTs, field, objectType} from 'graphql-ts'
 
+
+@objectType
 class root{
   @field
   hello():string{
