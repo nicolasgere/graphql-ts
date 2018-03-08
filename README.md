@@ -1,6 +1,11 @@
+# This project is not maintained anymore
+Due to the lack of time, if someone want to maintain it, your welcome.
+
+
 # GraphQL.ts
 [![Build Status](https://travis-ci.org/nicolasgere/graphql-ts.svg?branch=dev)](https://travis-ci.org/nicolasgere/graphql-ts?branch=dev)
 [![npm version](https://badge.fury.io/js/graphql-ts.svg)](https://badge.fury.io/js/graphql-ts)
+
 
 The Typescrit implementation for GraphQL, a query language for APIs created by Facebook.
 See specification here http://graphql.org/
