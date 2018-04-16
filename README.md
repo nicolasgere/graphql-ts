@@ -1,6 +1,8 @@
 # This project is not maintained anymore
 Due to the lack of time, if someone want to maintain it, your welcome.
 
+Good alternative might be [typegql](https://github.com/prismake/typegql)
+
 
 # GraphQL.ts
 [![Build Status](https://travis-ci.org/nicolasgere/graphql-ts.svg?branch=dev)](https://travis-ci.org/nicolasgere/graphql-ts?branch=dev)
