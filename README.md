@@ -1,8 +1,8 @@
 # This project is not maintained anymore
 Due to the lack of time, if someone want to maintain it, your welcome.
 
-Good alternative might be [typegql](https://github.com/prismake/typegql)
-
+If you are looking for alternatives, check out the [awesome-graphql list](https://github.com/chentsulin/awesome-graphql#lib-ts), where you can find similar libraries like [typegql](https://github.com/prismake/typegql), [TypeGraphQL](https://19majkel94.github.io/type-graphql) or [graphql-schema-decorator](https://github.com/indigotech/graphql-schema-decorator)
+.
 
 # GraphQL.ts
 [![Build Status](https://travis-ci.org/nicolasgere/graphql-ts.svg?branch=dev)](https://travis-ci.org/nicolasgere/graphql-ts?branch=dev)
